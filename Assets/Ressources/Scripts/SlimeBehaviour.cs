@@ -18,10 +18,7 @@ public class SlimeBehaviour : MonoBehaviour
         Vector3 mv = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
         transform.position += mv * Time.deltaTime * mvSpeed;
 
-        if (Input.GetAxis("Horizontal") == -1 || Input.GetAxis("Horizontal") == 1)
-        {
-            animator.SetBool("isMoving", true);
-        }
+
         
     }
 }
