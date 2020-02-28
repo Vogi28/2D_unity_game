@@ -19,7 +19,9 @@ public class SlimeBehaviour : MonoBehaviour
     {
         Vector3 mv = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
         transform.position += mv * Time.deltaTime * speed;
-        //horizontalMove = Input.GetAxis("Horizontal") * mvSpeed;
+        
+        //float translation = Input.GetAxis("Horizontal") * speed;
+        //translation *= Time.deltaTime;
 
         if (Input.GetAxis("Horizontal") != 0)
         {
