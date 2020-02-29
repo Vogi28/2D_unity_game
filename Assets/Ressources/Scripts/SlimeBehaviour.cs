@@ -36,9 +36,17 @@ public class SlimeBehaviour : MonoBehaviour
         }
 
         // check jump key and grounded condition
-        if (Input.GetKeyDown("space") && isGrounded)
+        if (Input.GetKeyDown("space"))
         {
-            jump();
+            animator.SetBool("IsJumping", true);
+            if (isGrounded)
+            {
+                jump();
+            }
+        }
+        else
+        {
+            animator.SetBool("IsJumping", false);
         }
 
     }
