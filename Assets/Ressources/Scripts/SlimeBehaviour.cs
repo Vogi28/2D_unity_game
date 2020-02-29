@@ -20,11 +20,16 @@ public class SlimeBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+     
+    }
+
+    void FixedUpdate()
+    {
         float axisX = Input.GetAxis("Horizontal");
 
         move(axisX);
         flip(axisX);
-        Debug.Log(moving);
+        //Debug.Log(moving);
     }
 
     private void move(float axisX)
