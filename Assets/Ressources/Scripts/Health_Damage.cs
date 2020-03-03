@@ -26,11 +26,7 @@ public class Health_Damage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("space"))
-            takeDamage(1);
-
-        if (Input.GetKeyDown(KeyCode.H))
-            ManaUse(1);
+        
     }
 
     // damage function
