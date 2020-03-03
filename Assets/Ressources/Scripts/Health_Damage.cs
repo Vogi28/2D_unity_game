@@ -54,4 +54,14 @@ public class Health_Damage : MonoBehaviour
             manaBar.SetMana(currentMana);
         }
     }
+
+    // check collision in
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        // compare object by tag
+        /*if (col.gameObject.CompareTag("Enemy"))
+        {
+            takeDamage(1);
+        }*/
+    }
 }

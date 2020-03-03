@@ -11,6 +11,7 @@ public class SlimeBehaviour : MonoBehaviour
     private bool isGrounded = false;
     private Animator animator;
     private Vector3 moving;
+    public Health_Damage hp_dmg;
 
     // Start is called before the first frame update
     void Start()
@@ -31,27 +32,8 @@ public class SlimeBehaviour : MonoBehaviour
 
         move(axisX);
         flip(axisX);
-
-        if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
-        {
-            float timeSinceLastSprint = Time.time - lastSprint;
-
-            if (timeSinceLastSprint <= DOUBLE_PRESS)
-            {
-                rb.velocity = new Vector2(axisX * speed / 2, 0);
-                //Vector3 force = new Vector3(axisX, 0f, 0f);
-                //rb.AddForce(force * speed / 2, ForceMode2D.Impulse);
-                print("Sprint");
-            }
-            else
-            {
-                rb.velocity = new Vector2(0, 0);
-                print("Walk");
-            }
-
-            lastSprint = Time.time;
-            //Debug.Log("Last sprint : " + lastSprint);
-        }
+        sprint(axisX);
+        
     }
 
     private void move(float axisX)
@@ -90,27 +72,50 @@ public class SlimeBehaviour : MonoBehaviour
         transform.localScale = _scale;
     }
 
-    // function character jump
+    // character jump
     private void jump()
     {
         rb.velocity += new Vector2(0, (speed * 1.4f));
     }
 
-    // function to check collision in
-    private void OnCollisionEnter2D(Collision2D col)
+    // double press sprint
+    private void sprint(float axisX)
     {
-        if(col.gameObject.CompareTag("Ground"))
+        if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
         {
-            isGrounded = true;
+            // time compare
+            float timeSinceLastSprint = Time.time - lastSprint;
+
+            if (timeSinceLastSprint <= DOUBLE_PRESS)
+                rb.velocity = new Vector2(axisX * speed / 2, 0);
+            else
+                rb.velocity = new Vector2(0, 0);
+            
+            // last press
+            lastSprint = Time.time;
+            
+            //Debug.Log("Last sprint : " + lastSprint);
         }
     }
 
-    // function to check collision out
+    // check collision in
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        // compare object by tag
+        if(col.gameObject.CompareTag("Ground"))
+            isGrounded = true;
+
+        if (col.gameObject.CompareTag("Enemy"))
+        {
+            hp_dmg.takeDamage(1);
+        }
+    }
+
+    // check collision out
     private void OnCollisionExit2D(Collision2D col)
     {
+        // compare object by tag
         if (col.gameObject.CompareTag("Ground"))
-        {
             isGrounded = false;
-        }
     }
 }
