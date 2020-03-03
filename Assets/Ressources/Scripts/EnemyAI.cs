@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public float speed = 2.5f;
+    public float speed = 1.3f;
     private Rigidbody2D rb;
     public Transform player;
 

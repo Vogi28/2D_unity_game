@@ -11,7 +11,6 @@ public class SlimeBehaviour : MonoBehaviour
     private bool isGrounded = false;
     private Animator animator;
     private Vector3 moving;
-    public Health_Damage hp_dmg;
 
     // Start is called before the first frame update
     void Start()
@@ -104,11 +103,6 @@ public class SlimeBehaviour : MonoBehaviour
         // compare object by tag
         if(col.gameObject.CompareTag("Ground"))
             isGrounded = true;
-
-        if (col.gameObject.CompareTag("Enemy"))
-        {
-            hp_dmg.takeDamage(1);
-        }
     }
 
     // check collision out

@@ -10,10 +10,13 @@ public class Health_Damage : MonoBehaviour
     public int maxMana = 10;
     public int currentMana;
     public ManaBar manaBar;
+    private Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+
         currentHealth = maxHealth;
         healthBar.setMaxHealth(maxHealth);
 
@@ -56,12 +59,13 @@ public class Health_Damage : MonoBehaviour
     }
 
     // check collision in
-    private void OnCollisionEnter2D(Collision2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         // compare object by tag
-        /*if (col.gameObject.CompareTag("Enemy"))
+        if (col.gameObject.CompareTag("Enemy"))
         {
             takeDamage(1);
-        }*/
+            rb.velocity = new Vector2(-5f, 0);
+        }
     }
 }
