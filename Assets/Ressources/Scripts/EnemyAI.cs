@@ -18,7 +18,6 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      
     }
 
     void FixedUpdate()
@@ -43,9 +42,9 @@ public class EnemyAI : MonoBehaviour
         Vector3 _scale = transform.localScale;
 
         if (direction.x < 0f)
-            _scale.x *= -1;
+            _scale.x = -Mathf.Abs(_scale.x);
         else
-            _scale.x *= 1;
+            _scale.x = Mathf.Abs(_scale.x);
 
         transform.localScale = _scale;
     }

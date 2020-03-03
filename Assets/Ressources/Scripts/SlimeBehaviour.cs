@@ -11,6 +11,7 @@ public class SlimeBehaviour : MonoBehaviour
     private bool isGrounded = false;
     private Animator animator;
     private Vector3 moving;
+    public HealthBar HealthBar;
 
     // Start is called before the first frame update
     void Start()
@@ -62,11 +63,11 @@ public class SlimeBehaviour : MonoBehaviour
     // flip the character
     private void flip(float axisX)
     {
-            Vector3 _scale = transform.localScale;
+        Vector3 _scale = transform.localScale;
         if (axisX < 0)
-            _scale.x *= -1;
+            _scale.x = -Mathf.Abs(_scale.x);
         else
-            _scale.x *= 1;
+            _scale.x = Mathf.Abs(_scale.x);
 
         transform.localScale = _scale;
     }
@@ -111,5 +112,16 @@ public class SlimeBehaviour : MonoBehaviour
         // compare object by tag
         if (col.gameObject.CompareTag("Ground"))
             isGrounded = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("Life"))
+        {
+            float health = HealthBar.slider.value + 1f;
+            HealthBar.setHealth((int)health);
+
+            Destroy(GameObject.Find("Life"));
+        }
     }
 }
