@@ -5,6 +5,8 @@ using UnityEngine;
 public class SlimeBehaviour : MonoBehaviour
 {
     public float speed = 5f;
+    private float lastSprint;
+    private const float DOUBLE_PRESS = .2f;
     private Rigidbody2D rb;
     private bool isGrounded = false;
     private Animator animator;
@@ -29,7 +31,27 @@ public class SlimeBehaviour : MonoBehaviour
 
         move(axisX);
         flip(axisX);
-        //Debug.Log(moving);
+
+        if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
+        {
+            float timeSinceLastSprint = Time.time - lastSprint;
+
+            if (timeSinceLastSprint <= DOUBLE_PRESS)
+            {
+                rb.velocity = new Vector2(axisX * speed / 2, 0);
+                //Vector3 force = new Vector3(axisX, 0f, 0f);
+                //rb.AddForce(force * speed / 2, ForceMode2D.Impulse);
+                print("Sprint");
+            }
+            else
+            {
+                rb.velocity = new Vector2(0, 0);
+                print("Walk");
+            }
+
+            lastSprint = Time.time;
+            //Debug.Log("Last sprint : " + lastSprint);
+        }
     }
 
     private void move(float axisX)

@@ -18,16 +18,24 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      
+    }
+
+    void FixedUpdate()
+    {
         Vector3 direction = player.position - transform.position;
         move(direction);
         flip(direction);
-        print(direction);
+        //print(direction);
     }
 
     private void move(Vector3 scale)
     {
-        Vector3 mv = new Vector3(scale.x, 0f, 0f);
-        transform.position += mv * Time.deltaTime * speed;
+        if (scale.x > -5f && scale.x < 5f)
+        {
+            Vector3 mv = new Vector3(scale.x, 0f, 0f);
+            transform.position += mv * Time.deltaTime * speed;
+        }
     }
 
     private void flip(Vector3 direction)
