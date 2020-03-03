@@ -120,8 +120,8 @@ public class SlimeBehaviour : MonoBehaviour
         {
             float health = HealthBar.slider.value + 1f;
             HealthBar.setHealth((int)health);
-
-            Destroy(GameObject.Find("Life"));
+            
+            Destroy(col.gameObject);
         }
     }
 }
