@@ -30,15 +30,6 @@ public class HealthBar : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.gameObject.CompareTag("Life"))
-        {
-            print(slider.value);
-            slider.value += 1;
-        }
-    }
-
     private void setHealthColor()
     {
         if (slider.normalizedValue <= 0.3f)
