@@ -10,7 +10,7 @@ public class ManaBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("SetManaRefill", 0.1f, 1f);
+        
     }
 
     // Update is called once per frame
@@ -32,10 +32,4 @@ public class ManaBar : MonoBehaviour
         slider.value = mana;
     }
 
-    // set mana refill
-    public void SetManaRefill()
-    {
-        if (slider.value < 1f)
-            slider.value += 0.1f;
-    }
 }

@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - HealthBar
+  - ManaBar
+  - Enemy
+  - Life
   layers:
   - Default
   - TransparentFX

@@ -5,10 +5,13 @@ using UnityEngine;
 public class SlimeBehaviour : MonoBehaviour
 {
     public float speed = 5f;
+    private float lastSprint;
+    private const float DOUBLE_PRESS = .2f;
     private Rigidbody2D rb;
     private bool isGrounded = false;
     private Animator animator;
     private Vector3 moving;
+    public HealthBar HealthBar;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +32,8 @@ public class SlimeBehaviour : MonoBehaviour
 
         move(axisX);
         flip(axisX);
-        //Debug.Log(moving);
+        sprint(axisX);
+        
     }
 
     private void move(float axisX)
@@ -59,36 +63,65 @@ public class SlimeBehaviour : MonoBehaviour
     // flip the character
     private void flip(float axisX)
     {
-            Vector3 _scale = transform.localScale;
+        Vector3 _scale = transform.localScale;
         if (axisX < 0)
-            _scale.x *= -1;
+            _scale.x = -Mathf.Abs(_scale.x);
         else
-            _scale.x *= 1;
+            _scale.x = Mathf.Abs(_scale.x);
 
         transform.localScale = _scale;
     }
 
-    // function character jump
+    // character jump
     private void jump()
     {
         rb.velocity += new Vector2(0, (speed * 1.4f));
     }
 
-    // function to check collision in
-    private void OnCollisionEnter2D(Collision2D col)
+    // double press sprint
+    private void sprint(float axisX)
     {
-        if(col.gameObject.CompareTag("Ground"))
+        if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
         {
-            isGrounded = true;
+            // time compare
+            float timeSinceLastSprint = Time.time - lastSprint;
+
+            if (timeSinceLastSprint <= DOUBLE_PRESS)
+                rb.velocity = new Vector2(axisX * speed / 2, 0);
+            else
+                rb.velocity = new Vector2(0, 0);
+            
+            // last press
+            lastSprint = Time.time;
+            
+            //Debug.Log("Last sprint : " + lastSprint);
         }
     }
 
-    // function to check collision out
+    // check collision in
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        // compare object by tag
+        if(col.gameObject.CompareTag("Ground"))
+            isGrounded = true;
+    }
+
+    // check collision out
     private void OnCollisionExit2D(Collision2D col)
     {
+        // compare object by tag
         if (col.gameObject.CompareTag("Ground"))
-        {
             isGrounded = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("Life"))
+        {
+            float health = HealthBar.slider.value + 1f;
+            HealthBar.setHealth((int)health);
+            
+            Destroy(col.gameObject);
         }
     }
 }
