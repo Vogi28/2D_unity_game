@@ -35,7 +35,7 @@ public class Health_Damage : MonoBehaviour
     // damage function
     public void takeDamage(int damage)
     {
-        if((currentHealth -= damage) < 0)
+        if((currentHealth -= damage) <= 0)
         {
             FindObjectOfType<Game_manager>().Endgame();
         }
