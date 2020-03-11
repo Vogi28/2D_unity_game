@@ -6,10 +6,12 @@ public class Health_Damage : MonoBehaviour
 {
     public int maxHealth = 10;
     public int currentHealth;
-    public HealthBar healthBar;
     public int maxMana = 10;
     public int currentMana;
+
+    public HealthBar healthBar;
     public ManaBar manaBar;
+    public GameObject deathEffect;
     private Rigidbody2D rb;
 
     // Start is called before the first frame update
@@ -37,11 +39,13 @@ public class Health_Damage : MonoBehaviour
     {
         if((currentHealth -= damage) <= 0)
         {
-            FindObjectOfType<Game_manager>().Endgame();
+            //FindObjectOfType<Game_manager>().Endgame();
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+            gameObject.SetActive(false);
         }
         currentHealth -= damage;
         healthBar.setHealth(currentHealth);
-        
+        Debug.Log(gameObject);
     }
 
     // mana use
