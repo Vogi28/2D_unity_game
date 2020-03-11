@@ -35,9 +35,13 @@ public class Health_Damage : MonoBehaviour
     // damage function
     public void takeDamage(int damage)
     {
+        if((currentHealth -= damage) < 0)
+        {
+            FindObjectOfType<Game_manager>().Endgame();
+        }
         currentHealth -= damage;
-
         healthBar.setHealth(currentHealth);
+        
     }
 
     // mana use
@@ -65,7 +69,7 @@ public class Health_Damage : MonoBehaviour
         if (col.gameObject.CompareTag("Enemy"))
         {
             takeDamage(1);
-            rb.velocity = new Vector2(-5f, 0);
+
         }
     }
 }
