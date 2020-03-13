@@ -66,6 +66,12 @@ public class Health_Damage : MonoBehaviour
         {
             takeDamage(1);
             rb.velocity = new Vector2(-5f, 0);
+            if(currentHealth <= 0)
+            {
+                FindObjectOfType<GameManager>().EndGame();
+            }
         }
     }
+
+
 }
