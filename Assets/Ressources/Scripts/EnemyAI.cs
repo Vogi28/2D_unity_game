@@ -5,8 +5,9 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public float speed = 1.3f;
-    private Rigidbody2D rb;
+    
     public Transform player;
+    private Rigidbody2D rb;
 
     // Start is called before the first frame update
     private void Start()

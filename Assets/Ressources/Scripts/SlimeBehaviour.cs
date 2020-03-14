@@ -5,12 +5,22 @@ using UnityEngine;
 public class SlimeBehaviour : MonoBehaviour
 {
     public float speed = 5f;
+    public float dashSpeed;
+    public float startDashTime;
+    public float distanceBetweenImages;
+    private float dashTime;
     private float lastSprint;
+    private float lastImageXpos;
+    
     private const float DOUBLE_PRESS = .2f;
-    private Rigidbody2D rb;
+    
+    private bool isDashing = false;
     private bool isGrounded = false;
-    private Animator animator;
+    
     private Vector3 moving;
+    
+    private Animator animator;
+    private Rigidbody2D rb;
     public HealthBar HealthBar;
 
     // Start is called before the first frame update
@@ -18,6 +28,7 @@ public class SlimeBehaviour : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        dashTime = startDashTime;
     }
 
     // Update is called once per frame
@@ -33,9 +44,10 @@ public class SlimeBehaviour : MonoBehaviour
         move(axisX);
         flip(axisX);
         sprint(axisX);
+        dash(axisX);
         
     }
-
+    // move the character
     private void move(float axisX)
     {
 
@@ -89,12 +101,51 @@ public class SlimeBehaviour : MonoBehaviour
             if (timeSinceLastSprint <= DOUBLE_PRESS)
                 rb.velocity = new Vector2(axisX * speed / 2, 0);
             else
-                rb.velocity = new Vector2(0, 0);
+                rb.velocity = Vector2.zero;
             
             // last press
             lastSprint = Time.time;
             
             //Debug.Log("Last sprint : " + lastSprint);
+        }
+    }
+
+    // double press dash
+    private void dash(float axisX)
+    {
+        if (!isDashing)
+        {
+            if (Input.GetKeyDown(KeyCode.RightShift))
+            {
+                isDashing = true;
+                // get ga.o from pool
+                AfterImagePool.Instance.GetFromPool();
+                // save the position of this ga.o
+                lastImageXpos = transform.position.x;
+
+                FindObjectOfType<Health_Damage>().ManaUse(1);
+            }
+        }
+        else
+        {        
+            if (dashTime <= 0)
+            {
+                isDashing = false;
+                dashTime = startDashTime;
+                rb.velocity = Vector2.zero;
+            }
+            else
+            {
+                dashTime -= Time.deltaTime;
+                rb.velocity = new Vector2(axisX, 0) * dashSpeed;
+
+                // check distance between images
+                if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)
+                {
+                    AfterImagePool.Instance.GetFromPool();
+                    lastImageXpos = transform.position.x;
+                }
+            }
         }
     }
 
